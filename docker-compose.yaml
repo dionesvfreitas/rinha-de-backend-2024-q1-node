@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  rinhadb:
+    image: postgres:16.2-alpine3.19
+    container_name: rinhadb
+    environment:
+      POSTGRES_USER: rinha
+      POSTGRES_PASSWORD: rinha
+      POSTGRES_DB: rinha
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "rinha", "-d", "rinha"]
+
