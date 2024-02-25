@@ -22,4 +22,8 @@
     "url": "https://github.com/dionesvfreitas/rinha-de-backend-2024-q1-node/issues"
   },
   "homepage": "https://github.com/dionesvfreitas/rinha-de-backend-2024-q1-node#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "typescript": "^5.3.3"
+  }
 }
