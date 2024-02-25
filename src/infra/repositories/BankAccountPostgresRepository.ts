@@ -34,20 +34,30 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
   async incrementBankAccountBalance(
     clientId: number,
     amount: number
-  ): Promise<BankAccount | undefined> {
+  ): Promise<{
+    bankAccount: BankAccount | undefined;
+    invalidBalance: boolean;
+  }> {
     const response = await this.connection.db.query(
-      sql`UPDATE clientes SET saldo = saldo + ${amount} WHERE id = ${clientId} RETURNING id, nome, limite, saldo`
+      sql`UPDATE clientes current SET saldo = CASE WHEN current.saldo + ${amount} < current.limite * -1 THEN current.saldo ELSE current.saldo + ${amount} END FROM clientes old WHERE current.id = old.id AND current.id = ${clientId} RETURNING old.saldo + ${amount} < old.limite * -1 as invalid_balance, current.id, current.nome, current.limite, current.saldo`
     );
     if (response.length === 0) {
-      return undefined;
+      return {
+        bankAccount: undefined,
+        invalidBalance: false,
+      };
     }
-    const { id, nome, limite, saldo } = response[0];
-    return new BankAccount(
-      Number(id),
-      nome as string,
-      Number(limite),
-      Number(saldo)
-    );
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { id, nome, limite, saldo, invalid_balance } = response[0];
+    return {
+      bankAccount: new BankAccount(
+        Number(id),
+        nome as string,
+        Number(limite),
+        Number(saldo)
+      ),
+      invalidBalance: invalid_balance as boolean,
+    };
   }
 
   async saveFinancialTransaction(

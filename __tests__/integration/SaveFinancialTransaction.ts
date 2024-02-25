@@ -135,4 +135,26 @@ describe('SaveFinancialTransaction', () => {
     // Assert
     expect(statusCode).toBe(404);
   });
+
+  it('should not save an financial transaction with invalid balance', async () => {
+    // Arrange
+    const repositoryFactory = new PostgresRepositoryFactory(connection);
+    const saveFinancialTransaction = new SaveFinancialTransaction(
+      repositoryFactory
+    );
+    const clientId = 1;
+    const amount = 120000;
+    const description = 'Salary';
+
+    // Act
+    const { statusCode } = await saveFinancialTransaction.execute({
+      clientId,
+      description,
+      type: FinancialTransactionType.DEBIT,
+      amount,
+    });
+
+    // Assert
+    expect(statusCode).toBe(422);
+  });
 });

@@ -5,7 +5,10 @@ export interface BankAccountRepository {
   incrementBankAccountBalance: (
     clientId: number,
     amount: number
-  ) => Promise<BankAccount | undefined>;
+  ) => Promise<{
+    bankAccount: BankAccount | undefined;
+    invalidBalance: boolean;
+  }>;
   saveFinancialTransaction: (
     financialTransaction: FinancialTransaction
   ) => Promise<void>;

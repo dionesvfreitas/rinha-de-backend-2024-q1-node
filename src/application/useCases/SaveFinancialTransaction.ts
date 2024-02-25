@@ -38,10 +38,16 @@ export class SaveFinancialTransaction {
         input.clientId,
         amount
       );
-    if (newAccountBalance === undefined) {
+    if (newAccountBalance.bankAccount === undefined) {
       return { statusCode: 404 };
     }
+    if (newAccountBalance.invalidBalance) {
+      return { statusCode: 422 };
+    }
     void this.bankAccountRepository.saveFinancialTransaction(transaction);
-    return { statusCode: 200, accountBalance: newAccountBalance.balance };
+    return {
+      statusCode: 200,
+      accountBalance: newAccountBalance.bankAccount.balance,
+    };
   }
 }
