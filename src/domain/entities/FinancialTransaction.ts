@@ -1,18 +1,15 @@
 import { FinancialTransactionType } from './FinancialTransactionType';
 
 export class FinancialTransaction {
-  constructor (
+  constructor(
     public clientId: number,
     public description: string,
     public type: FinancialTransactionType,
     public amount: number
   ) {}
 
-  isValid (): boolean {
-    if (
-      this.description === '' ||
-      this.description.length > 10
-    ) {
+  isValid(): boolean {
+    if (this.description === '' || this.description.length > 10) {
       return false;
     }
 
