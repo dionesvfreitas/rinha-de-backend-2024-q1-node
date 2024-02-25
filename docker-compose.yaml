@@ -8,9 +8,8 @@ services:
       POSTGRES_PASSWORD: rinha
       POSTGRES_DB: rinha
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "rinha", "-d", "rinha"]
-
+      test: ['CMD', 'pg_isready', '-U', 'rinha', '-d', 'rinha']
