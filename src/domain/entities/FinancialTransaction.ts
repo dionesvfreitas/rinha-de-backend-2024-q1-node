@@ -5,7 +5,8 @@ export class FinancialTransaction {
     public clientId: number,
     public description: string,
     public type: FinancialTransactionType,
-    public amount: number
+    public amount: number,
+    public releaseDate: Date = new Date()
   ) {}
 
   isValid(): boolean {
