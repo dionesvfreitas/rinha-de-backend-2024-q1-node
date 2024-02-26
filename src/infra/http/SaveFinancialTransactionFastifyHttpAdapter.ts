@@ -2,6 +2,7 @@ import { type FinancialTransactionType } from '../../domain/entities';
 import { SaveFinancialTransactionHttp } from './SaveFinancialTransactionHttp';
 import { type SaveFinancialTransaction } from '../../application/useCases';
 import { type FastifyHttpAdapter } from './FastifyHttpAdapter';
+import { HttpStatus } from './HttpStatus';
 
 export class SaveFinancialTransactionFastifyHttpAdapter extends SaveFinancialTransactionHttp {
   private constructor(saveFinancialTransaction: SaveFinancialTransaction) {
@@ -30,10 +31,14 @@ export class SaveFinancialTransactionFastifyHttpAdapter extends SaveFinancialTra
           amount: request.body.valor,
         });
 
-      void reply.code(statusCode).send({
-        saldo: accountBalance,
-        limite: accountLimit,
-      });
+      if (statusCode === HttpStatus.OK) {
+        return void reply.code(statusCode).send({
+          saldo: accountBalance,
+          limite: accountLimit,
+        });
+      }
+
+      return void reply.code(statusCode).send();
     });
   }
 }

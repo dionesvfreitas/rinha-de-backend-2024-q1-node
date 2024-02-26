@@ -10,6 +10,7 @@ import {
   type SaveFinancialTransactionInput,
   type SaveFinancialTransactionOutput,
 } from '../../domain/types';
+import { HttpStatus } from '../../infra/http';
 
 export class SaveFinancialTransaction {
   private readonly bankAccountRepository: BankAccountRepository;
@@ -27,7 +28,7 @@ export class SaveFinancialTransaction {
       input.amount
     );
     if (!transaction.isValid()) {
-      return { statusCode: 422 };
+      return { statusCode: HttpStatus.UNPROCESSABLE_ENTITY };
     }
     const amount =
       transaction.type === FinancialTransactionType.CREDIT
@@ -39,14 +40,14 @@ export class SaveFinancialTransaction {
         amount
       );
     if (newAccountBalance.bankAccount === undefined) {
-      return { statusCode: 404 };
+      return { statusCode: HttpStatus.NOT_FOUND };
     }
     if (newAccountBalance.invalidBalance) {
-      return { statusCode: 422 };
+      return { statusCode: HttpStatus.UNPROCESSABLE_ENTITY };
     }
     void this.bankAccountRepository.saveFinancialTransaction(transaction);
     return {
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       accountBalance: newAccountBalance.bankAccount.balance,
       accountLimit: newAccountBalance.bankAccount.limit,
     };

@@ -3,6 +3,7 @@ import {
   type RepositoryFactory,
 } from '../../domain/repositories';
 import { type GetBankAccountOutput } from '../../domain/types';
+import { HttpStatus } from '../../infra/http';
 
 export class GetBankAccount {
   private readonly bankAccountRepository: BankAccountRepository;
@@ -15,11 +16,11 @@ export class GetBankAccount {
       await this.bankAccountRepository.getBankAccount(clientId);
     if (bankAccount === undefined) {
       return {
-        statusCode: 404,
+        statusCode: HttpStatus.NOT_FOUND,
       };
     }
     return {
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       bankAccount,
     };
   }

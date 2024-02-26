@@ -1,6 +1,7 @@
 import { DbConnection } from '../../src/infra/database';
 import { PostgresRepositoryFactory } from '../../src/infra/repositories';
 import { GetBankAccount } from '../../src/application/useCases';
+import { HttpStatus } from '../../src/infra/http';
 
 describe('GetBankAccount', () => {
   let connection: DbConnection;
@@ -37,6 +38,6 @@ describe('GetBankAccount', () => {
 
     // Assert
     expect(getBankAccountOutput.bankAccount).toBeUndefined();
-    expect(getBankAccountOutput.statusCode).toBe(404);
+    expect(getBankAccountOutput.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
 });

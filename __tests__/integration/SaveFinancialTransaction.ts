@@ -5,6 +5,7 @@ import {
   GetBankAccount,
 } from '../../src/application/useCases';
 import { DbConnection } from '../../src/infra/database';
+import { HttpStatus } from '../../src/infra/http';
 
 describe('SaveFinancialTransaction', () => {
   let connection: DbConnection;
@@ -67,7 +68,7 @@ describe('SaveFinancialTransaction', () => {
 
     // Assert
     expect(accountBalanceOutput).toBe(accountBalance - amount);
-    expect(statusCode).toBeGreaterThanOrEqual(200);
+    expect(statusCode).toBe(HttpStatus.OK);
   });
 
   it('should not save an financial transaction with invalid amount format', async () => {
@@ -89,7 +90,7 @@ describe('SaveFinancialTransaction', () => {
     });
 
     // Assert
-    expect(statusCode).toBe(422);
+    expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   it('should not save an financial transaction with invalid type', async () => {
@@ -111,7 +112,7 @@ describe('SaveFinancialTransaction', () => {
     });
 
     // Assert
-    expect(statusCode).toBe(422);
+    expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   it('should not save an financial transaction with invalid client', async () => {
@@ -133,7 +134,7 @@ describe('SaveFinancialTransaction', () => {
     });
 
     // Assert
-    expect(statusCode).toBe(404);
+    expect(statusCode).toBe(HttpStatus.NOT_FOUND);
   });
 
   it('should not save an financial transaction with invalid balance', async () => {
@@ -155,6 +156,6 @@ describe('SaveFinancialTransaction', () => {
     });
 
     // Assert
-    expect(statusCode).toBe(422);
+    expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 });
