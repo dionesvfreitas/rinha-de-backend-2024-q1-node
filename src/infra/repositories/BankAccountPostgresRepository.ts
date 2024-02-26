@@ -30,7 +30,6 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
       Number(saldo)
     );
   }
-
   async incrementBankAccountBalance(
     clientId: number,
     amount: number
@@ -59,7 +58,6 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
       invalidBalance: invalid_balance as boolean,
     };
   }
-
   async saveFinancialTransaction(
     financialTransaction: FinancialTransaction
   ): Promise<void> {
@@ -69,5 +67,13 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
         sql`INSERT INTO transacoes (cliente_id, descricao, tipo, valor, realizada_em) VALUES (${clientId}, ${description}, ${type}, ${amount}, NOW())`
       )
       .then((): void => {});
+  }
+
+  async clear(): Promise<void> {
+    void await this.connection.db.query(sql`DELETE FROM transacoes`);
+    for (let i = 1; i <= 5 ; i++) {
+      void await this.connection.db.query(sql`UPDATE clientes SET saldo = 0 WHERE id = ${i}`);
+    }
+    return Promise.resolve();
   }
 }

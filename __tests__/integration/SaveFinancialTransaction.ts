@@ -24,6 +24,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const getClientBankAccount = new GetBankAccount(repositoryFactory);
     const clientId = 1;
     const getBankAccountOutput = await getClientBankAccount.execute(clientId);
@@ -50,6 +51,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const getClientBankAccount = new GetBankAccount(repositoryFactory);
     const clientId = 1;
     const getBankAccountOutput = await getClientBankAccount.execute(clientId);
@@ -77,6 +79,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const clientId = 1;
     const amount = 2.5;
     const description = 'Salary';
@@ -99,6 +102,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const clientId = 1;
     const amount = 100;
     const description = 'Salary';
@@ -121,6 +125,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const clientId = 100;
     const amount = 100;
     const description = 'Salary';
@@ -143,6 +148,7 @@ describe('SaveFinancialTransaction', () => {
     const saveFinancialTransaction = new SaveFinancialTransaction(
       repositoryFactory
     );
+    await repositoryFactory.getBankAccountRepository().clear();
     const clientId = 1;
     const amount = 120000;
     const description = 'Salary';

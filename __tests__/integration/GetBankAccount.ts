@@ -19,6 +19,7 @@ describe('GetBankAccount', () => {
     const repositoryFactory = new PostgresRepositoryFactory(connection);
     const getBankAccount = new GetBankAccount(repositoryFactory);
     const clientId = 1;
+    await repositoryFactory.getBankAccountRepository().clear();
 
     // Act
     const getBankAccountOutput = await getBankAccount.execute(clientId);
@@ -32,6 +33,7 @@ describe('GetBankAccount', () => {
     const repositoryFactory = new PostgresRepositoryFactory(connection);
     const getBankAccount = new GetBankAccount(repositoryFactory);
     const clientId = 100;
+    await repositoryFactory.getBankAccountRepository().clear();
 
     // Act
     const getBankAccountOutput = await getBankAccount.execute(clientId);

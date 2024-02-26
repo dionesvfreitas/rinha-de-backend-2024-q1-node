@@ -12,4 +12,5 @@ export interface BankAccountRepository {
   saveFinancialTransaction: (
     financialTransaction: FinancialTransaction
   ) => Promise<void>;
+  clear: () => Promise<void>;
 }
