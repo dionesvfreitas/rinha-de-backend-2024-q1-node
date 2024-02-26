@@ -48,6 +48,7 @@ export class SaveFinancialTransaction {
     return {
       statusCode: 200,
       accountBalance: newAccountBalance.bankAccount.balance,
+      accountLimit: newAccountBalance.bankAccount.limit,
     };
   }
 }
