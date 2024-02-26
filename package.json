@@ -4,7 +4,7 @@
   "description": "Projeto para a rinha de backend 2024-q1 utilizando node",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint:check": "eslint . --ext .ts",

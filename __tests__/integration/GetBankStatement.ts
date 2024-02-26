@@ -42,7 +42,7 @@ describe('GetBankStatement', () => {
     ];
 
     for await (const transaction of transactions) {
-      void (await saveFinancialTransaction.execute(transaction));
+      await saveFinancialTransaction.execute(transaction);
     }
     const getBankStatementOutput = await getBankStatement.execute(clientId);
 
@@ -132,7 +132,7 @@ describe('GetBankStatement', () => {
     ];
 
     for await (const transaction of transactions) {
-      void (await saveFinancialTransaction.execute(transaction));
+      await saveFinancialTransaction.execute(transaction);
     }
     const getBankStatementOutput = await getBankStatement.execute(clientId);
 

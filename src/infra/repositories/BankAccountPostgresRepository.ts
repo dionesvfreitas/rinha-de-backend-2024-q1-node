@@ -73,11 +73,11 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
   }
 
   async clear(): Promise<void> {
-    void (await this.connection.db.query(sql`DELETE FROM transacoes`));
+    await this.connection.db.query(sql`DELETE FROM transacoes`);
     for (let i = 1; i <= 5; i++) {
-      void (await this.connection.db.query(
+      await this.connection.db.query(
         sql`UPDATE clientes SET saldo = 0 WHERE id = ${i}`
-      ));
+      );
     }
     await Promise.resolve();
   }
