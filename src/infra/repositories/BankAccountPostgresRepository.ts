@@ -2,6 +2,7 @@ import { type BankAccountRepository } from '../../domain/repositories';
 import { BankAccount, type FinancialTransaction } from '../../domain/entities';
 import { type DbConnection } from '../database';
 import { sql } from '@databases/pg';
+import { type GetBankStatementDbOutput } from '../../domain/types';
 
 export class BankAccountPostgresRepository implements BankAccountRepository {
   private static instance: BankAccountPostgresRepository;
@@ -30,6 +31,7 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
       Number(saldo)
     );
   }
+
   async incrementBankAccountBalance(
     clientId: number,
     amount: number
@@ -58,6 +60,7 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
       invalidBalance: invalid_balance as boolean,
     };
   }
+
   async saveFinancialTransaction(
     financialTransaction: FinancialTransaction
   ): Promise<void> {
@@ -70,10 +73,40 @@ export class BankAccountPostgresRepository implements BankAccountRepository {
   }
 
   async clear(): Promise<void> {
-    void await this.connection.db.query(sql`DELETE FROM transacoes`);
-    for (let i = 1; i <= 5 ; i++) {
-      void await this.connection.db.query(sql`UPDATE clientes SET saldo = 0 WHERE id = ${i}`);
+    void (await this.connection.db.query(sql`DELETE FROM transacoes`));
+    for (let i = 1; i <= 5; i++) {
+      void (await this.connection.db.query(
+        sql`UPDATE clientes SET saldo = 0 WHERE id = ${i}`
+      ));
     }
-    return Promise.resolve();
+    await Promise.resolve();
+  }
+
+  async getBankStatement(
+    clientId: number
+  ): Promise<GetBankStatementDbOutput[] | undefined> {
+    const transactions = await this.connection.db.query(sql`
+      with client as (select id, saldo, limite from clientes where id = ${clientId}),
+      transactions as (select cliente_id, valor, tipo, descricao, realizada_em from transacoes where cliente_id = ${clientId} order by realizada_em desc limit 10)
+      select
+      *
+      from client
+      left join transactions on transactions.cliente_id = client.id;
+    `);
+    if (transactions.length === 0) {
+      return undefined;
+    }
+    const response = [];
+    for (const transaction of transactions) {
+      response.push({
+        accountBalance: transaction.saldo,
+        accountLimit: transaction.limite,
+        description: transaction.descricao,
+        amount: transaction.valor,
+        type: transaction.tipo,
+        releaseDate: transaction.realizada_em,
+      });
+    }
+    return response;
   }
 }

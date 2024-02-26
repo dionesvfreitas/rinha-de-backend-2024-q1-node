@@ -1,4 +1,5 @@
 import { type BankAccount, type FinancialTransaction } from '../entities';
+import { type GetBankStatementDbOutput } from '../types';
 
 export interface BankAccountRepository {
   getBankAccount: (clientId: number) => Promise<BankAccount | undefined>;
@@ -13,4 +14,7 @@ export interface BankAccountRepository {
     financialTransaction: FinancialTransaction
   ) => Promise<void>;
   clear: () => Promise<void>;
+  getBankStatement: (
+    clientId: number
+  ) => Promise<GetBankStatementDbOutput[] | undefined>;
 }

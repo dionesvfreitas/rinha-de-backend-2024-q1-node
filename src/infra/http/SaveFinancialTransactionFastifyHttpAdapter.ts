@@ -32,13 +32,14 @@ export class SaveFinancialTransactionFastifyHttpAdapter extends SaveFinancialTra
         });
 
       if (statusCode === HttpStatus.OK) {
-        return void reply.code(statusCode).send({
+        void reply.code(statusCode).send({
           saldo: accountBalance,
           limite: accountLimit,
         });
+        return;
       }
 
-      return void reply.code(statusCode).send();
+      void reply.code(statusCode).send();
     });
   }
 }

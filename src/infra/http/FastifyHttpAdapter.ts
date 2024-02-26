@@ -5,15 +5,18 @@ export class FastifyHttpAdapter {
   constructor() {
     this.server = fastify();
   }
+
   static getInstance(): FastifyHttpAdapter {
     if (FastifyHttpAdapter.instance === undefined) {
       FastifyHttpAdapter.instance = new FastifyHttpAdapter();
     }
     return FastifyHttpAdapter.instance;
   }
+
   getServer(): FastifyInstance {
     return this.server;
   }
+
   listen(port: number = 8080, host: string = '0.0.0.0'): void {
     this.server.listen({ port, host }, (err, address) => {
       if (err !== null) {
