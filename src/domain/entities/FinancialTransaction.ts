@@ -10,7 +10,11 @@ export class FinancialTransaction {
   ) {}
 
   isValid(): boolean {
-    if (this.description === '' || this.description.length > 10) {
+    if (
+      this.description === null ||
+      this.description === '' ||
+      this.description.length > 10
+    ) {
       return false;
     }
 

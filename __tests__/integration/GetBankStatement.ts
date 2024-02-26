@@ -160,4 +160,23 @@ describe('GetBankStatement', () => {
     // Assert
     expect(getBankStatementOutput.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
+
+  it('should not get bank statement with no transactions', async () => {
+    // Arrange
+    const connection = DbConnection.getInstance();
+    const repositoryFactory = new PostgresRepositoryFactory(connection);
+    await repositoryFactory.getBankAccountRepository().clear();
+    const getBankStatement = new GetBankStatement(repositoryFactory);
+    const clientId = 1;
+
+    // Act
+    const getBankStatementOutput = await getBankStatement.execute(clientId);
+
+    // Assert
+    expect(getBankStatementOutput.statusCode).toBe(HttpStatus.OK);
+    expect(getBankStatementOutput.bankStatement).toBeDefined();
+    expect(
+      getBankStatementOutput.bankStatement?.latestTransactions.length
+    ).toBe(0);
+  });
 });

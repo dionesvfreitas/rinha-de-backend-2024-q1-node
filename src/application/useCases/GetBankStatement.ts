@@ -27,15 +27,18 @@ export class GetBankStatement {
       databaseData[0].accountBalance
     );
     for (const transaction of databaseData) {
-      bankStatement.addTransaction(
-        new FinancialTransaction(
-          clientId,
-          transaction.description,
-          transaction.type as FinancialTransactionType,
-          transaction.amount,
-          transaction.releaseDate
-        )
+      const newTransaction = new FinancialTransaction(
+        clientId,
+        transaction.description,
+        transaction.type as FinancialTransactionType,
+        transaction.amount,
+        transaction.releaseDate
       );
+
+      if (!newTransaction.isValid()) {
+        continue;
+      }
+      bankStatement.addTransaction(newTransaction);
     }
     return {
       statusCode: HttpStatus.OK,
