@@ -1,5 +1,13 @@
 import createConnectionPool, { type ConnectionPool } from '@databases/pg';
 
+const {
+  DB_NAME,
+  DB_USERNAME,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_CONNECTION_POOL_SIZE,
+} = process.env;
 export class DbConnection {
   private static instance: DbConnection;
   private readonly dbInstance: ConnectionPool;
@@ -7,8 +15,8 @@ export class DbConnection {
     this.dbInstance = createConnectionPool({
       connectionString:
         process.env.DB_CONNECTION_STRING ??
-        'postgres://rinha:rinha@localhost:5432/rinha',
-      poolSize: 100,
+        `postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+      poolSize: Number(DB_CONNECTION_POOL_SIZE ?? 100),
       bigIntMode: 'number',
     });
   }
