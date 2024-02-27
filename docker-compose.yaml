@@ -13,6 +13,11 @@ services:
       test: ['CMD', 'pg_isready', '-U', 'rinha', '-d', 'rinha']
     networks:
       - rinha-de-backend-2024-q1-node
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '300MB'
   api01: &api
     image: dionesvfreitas/rinha-de-backend-2024-q1-node
     container_name: api01
@@ -29,6 +34,11 @@ services:
       test: ['CMD', 'curl', '-f', 'http://localhost:8080/health-check']
     networks:
       - rinha-de-backend-2024-q1-node
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '75MB'
   api02:
     <<: *api
     container_name: api02
