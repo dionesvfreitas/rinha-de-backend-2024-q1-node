@@ -4,6 +4,9 @@ export class FastifyHttpAdapter {
   private static instance: FastifyHttpAdapter;
   constructor() {
     this.server = fastify();
+    this.server.get('/health-check', async (request, reply) => {
+      await reply.code(200).send({ message: "I'm alive!" });
+    });
   }
 
   static getInstance(): FastifyHttpAdapter {

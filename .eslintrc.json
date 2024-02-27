@@ -8,7 +8,13 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "ignorePatterns": ["dist", "node_modules", "jest.config.ts"],
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "jest.config.ts",
+    "coverage",
+    "load-test"
+  ],
   "rules": {
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/space-before-function-paren": "off",
