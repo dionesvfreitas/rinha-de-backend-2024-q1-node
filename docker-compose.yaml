@@ -7,31 +7,29 @@ services:
       POSTGRES_USER: rinha
       POSTGRES_PASSWORD: rinha
       POSTGRES_DB: rinha
+    command: postgres -c max_connections=200
     volumes:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
-    healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'rinha', '-d', 'rinha']
     networks:
       - rinha-de-backend-2024-q1-node
     deploy:
       resources:
         limits:
-          cpus: '0.7'
-          memory: '200MB'
+          cpus: '0.6'
+          memory: '300MB'
   api01: &api
     image: dionesvfreitas/rinha-de-backend-2024-q1-node
     container_name: api01
     build:
       context: .
+      platforms:
+        - linux/amd64
       dockerfile: Dockerfile
       target: production
     env_file:
       - .env
     depends_on:
-      rinhadb:
-        condition: service_healthy
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health-check']
+      - rinhadb
     networks:
       - rinha-de-backend-2024-q1-node
     deploy:
@@ -50,17 +48,15 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      api01:
-        condition: service_healthy
-      api02:
-        condition: service_healthy
+      - api01
+      - api02
     networks:
       - rinha-de-backend-2024-q1-node
     deploy:
       resources:
         limits:
-          cpus: '0.2'
-          memory: '100MB'
+          cpus: '0.3'
+          memory: '50MB'
 networks:
   rinha-de-backend-2024-q1-node:
     driver: bridge
