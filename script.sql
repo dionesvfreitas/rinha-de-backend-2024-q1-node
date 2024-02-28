@@ -15,6 +15,8 @@ CREATE TABLE transacoes (
     FOREIGN KEY (cliente_id) REFERENCES clientes (id)
 );
 
+CREATE INDEX idx_cliente_id_realizada_em ON transacoes (cliente_id, realizada_em DESC);
+
 DO $$
 BEGIN
   INSERT INTO clientes (id, nome, limite)
