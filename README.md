@@ -14,11 +14,6 @@ Projeto desenvolvido para o rinha de backend 2024 Q1 utilizando boas práticas d
 ## Resultado
 <img src="stress_test_result.png" width="60%" alt="Resultado do stress test">
 
-## Implementação
-
-- [Código Fonte](https://github.com/dionesvfreitas/rinha-de-backend-2024-q1-node)
-
-
 ## Instruções
 Execute o comando abaixo para iniciar o projeto:
 ```
