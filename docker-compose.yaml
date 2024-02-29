@@ -37,6 +37,8 @@ services:
         limits:
           cpus: '0.3'
           memory: '100MB'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health-check"]
   api02:
     <<: *api
     container_name: api02
@@ -48,8 +50,10 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - api01
-      - api02
+      api01:
+        condition: service_healthy
+      api02:
+        condition: service_healthy
     networks:
       - rinha-de-backend-2024-q1-node
     deploy:
