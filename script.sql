@@ -1,11 +1,11 @@
-CREATE TABLE clientes (
+CREATE UNLOGGED TABLE clientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     limite INTEGER NOT NULL,
     saldo INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE transacoes (
+CREATE UNLOGGED TABLE transacoes (
     id SERIAL PRIMARY KEY,
     valor INTEGER NOT NULL,
     tipo CHAR(1) NOT NULL,
