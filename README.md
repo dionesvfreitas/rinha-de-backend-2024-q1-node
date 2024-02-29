@@ -19,9 +19,3 @@ Execute o comando abaixo para iniciar o projeto:
 ```
 docker compose up
 ```
-## Autor
-
-[Diones V. Freitas](mailto:dionesfreitas@live.com)
-
-[![github](https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dionesvfreitas)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dionesvfreitas)
