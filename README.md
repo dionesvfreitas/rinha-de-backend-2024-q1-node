@@ -19,3 +19,39 @@ Execute o comando abaixo para iniciar o projeto:
 ```
 docker compose up
 ```
+
+Execute o comando abaixo para obter o extrato de um cliente:
+```
+curl --location 'http://localhost:9999/clientes/1/extrato'
+```
+
+Resposta:
+```json
+{
+    "saldo": {
+        "total": 0,
+        "data_extrato": "2024-02-28T03:11:22.573Z",
+        "limite": 100000
+    },
+    "ultimas_transacoes": []
+}
+```
+
+Execute o comando abaixo para criar uma nova transação (d - débito, c - crédito):
+```
+curl --location 'http://localhost:9999/clientes/1/transacoes' \
+--header 'Content-Type: application/json' \
+--data '{
+    "valor": 3,
+    "tipo": "d",
+    "descricao": "asdasd"
+}'
+```
+
+Resposta:
+```json
+{
+    "saldo": -90219,
+    "limite": 100000
+}
+```
